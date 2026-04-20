@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controller Den — Retro USB Controllers for PC, Mac & Raspberry Pi</title>
+<meta name="description" content="Classic N64, SNES, NES, and Sega controllers rebuilt for USB and Bluetooth. Plug & play on PC, Mac, Raspberry Pi. Free shipping over $35.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f0a830'/><text y='72' x='50' text-anchor='middle' font-size='60' font-family='sans-serif' font-weight='bold' fill='%230c0b10'>CD</text></svg>">
+<meta property="og:title" content="Controller Den — Retro Controllers for Modern Gaming">
+<meta property="og:description" content="Classic N64, SNES, NES, and Sega USB controllers. Plug & play on PC, Mac, Raspberry Pi.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://controllerden.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Saira:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Saira',sans-serif;background:#0c0b10;color:#f0eee6;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+:root{
+--gold:#f0a830;
+--gold-d:#c8891a;
+--gold-g:rgba(240,168,48,0.12);
+--bg:#0c0b10;
+--bg2:#13121a;
+--bg3:#1c1a26;
+--card:#181620;
+--text:#f0eee6;
+--text2:#a09a8e;
+--text3:#605c54;
+--border:#2a2735;
+--red:#e84040;
+}
+
+/* NAV */
+nav{
+display:flex;align-items:center;justify-content:space-between;
+padding:16px 40px;
+background:rgba(12,11,16,0.95);
+backdrop-filter:blur(16px);
+border-bottom:1px solid var(--border);
+position:sticky;top:0;z-index:100;
+}
+.logo{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:22px;color:var(--gold);display:flex;align-items:center;gap:10px}
+.logo-i{width:34px;height:34px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.logo span{color:var(--text)}
+.nav-r{display:flex;align-items:center;gap:24px}
+.nav-r a{color:var(--text2);font-size:14px;font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--gold)}
+.nav-btn{background:var(--gold);color:var(--bg);padding:10px 22px;border-radius:8px;font-weight:700;font-size:13px;transition:transform .15s}
+.nav-btn:hover{transform:translateY(-1px)}
+
+/* HERO */
+.hero{
+text-align:center;
+padding:80px 24px 70px;
+position:relative;
+overflow:hidden;
+}
+.hero::before{
+content:'';position:absolute;inset:0;
+background:radial-gradient(ellipse at 50% 30%,rgba(240,168,48,0.07),transparent 60%);
+pointer-events:none;
+}
+.hero-content{position:relative;z-index:2;max-width:680px;margin:0 auto}
+.hero h1{
+font-family:'Chakra Petch',sans-serif;
+font-size:clamp(32px,6vw,52px);
+font-weight:700;line-height:1.1;
+margin-bottom:16px;
+}
+.hero h1 .g{color:var(--gold)}
+.hero p{font-size:17px;color:var(--text2);line-height:1.7;max-width:500px;margin:0 auto 28px}
+.btn{
+display:inline-block;
+background:linear-gradient(135deg,var(--gold),var(--gold-d));
+color:var(--bg);
+padding:15px 36px;border-radius:10px;
+font-weight:700;font-size:15px;
+transition:transform .2s,box-shadow .2s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px var(--gold-g)}
+.hero-note{
+margin-top:24px;font-size:13px;color:var(--text3);
+display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;
+}
+.hero-note span{display:flex;align-items:center;gap:5px}
+.chk{color:var(--gold);font-weight:700}
+
+/* TRUST BAR */
+.trust-bar{
+display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
+padding:18px 24px;
+border-top:1px solid var(--border);
+border-bottom:1px solid var(--border);
+font-size:13px;color:var(--text2);font-weight:500;
+}
+
+/* GLOW LINE */
+.gl{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.15}
+
+/* SECTION */
+.section{padding:64px 24px;max-width:1100px;margin:0 auto}
+.section-label{
+font-family:'JetBrains Mono',monospace;
+font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;
+color:var(--gold);text-align:center;margin-bottom:6px;
+}
+.section h2{
+font-family:'Chakra Petch',sans-serif;
+font-size:28px;font-weight:700;text-align:center;margin-bottom:6px;
+}
+.section>p,.section .sub{text-align:center;color:var(--text2);font-size:14px;margin-bottom:36px}
+
+/* PRODUCT GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:14px;
+overflow:hidden;
+transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+.card:hover{
+transform:translateY(-4px);
+border-color:var(--gold-d);
+box-shadow:0 12px 36px rgba(0,0,0,0.4),0 0 0 1px rgba(240,168,48,0.12);
+}
+.card-img{
+height:200px;
+background:var(--bg3);
+display:flex;align-items:center;justify-content:center;
+position:relative;
+}
+.card-img::before{
+content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+width:80%;height:50%;
+background:radial-gradient(ellipse,rgba(240,168,48,0.05),transparent);
+pointer-events:none;
+}
+.card-img::after{
+content:'';position:absolute;inset:0;
+background:linear-gradient(180deg,transparent 60%,var(--card));
+}
+.card-img img{max-width:65%;max-height:80%;object-fit:contain;position:relative;z-index:1}
+.card-tag{
+position:absolute;top:10px;left:10px;z-index:2;
+font-family:'JetBrains Mono',monospace;
+font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
+padding:4px 10px;border-radius:5px;
+}
+.tag-best{background:var(--gold);color:var(--bg)}
+.tag-pop{background:var(--red);color:#fff}
+.tag-prem{background:#7b68ee;color:#fff}
+
+.card-body{padding:16px 18px 20px}
+.card-con{
+font-family:'JetBrains Mono',monospace;
+font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;
+color:var(--gold);margin-bottom:3px;
+}
+.card-name{font-weight:700;font-size:15px;margin-bottom:3px}
+.card-stock{color:var(--red);font-size:12px;font-weight:600;margin-bottom:4px}
+.card-desc{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:14px}
+.card-foot{display:flex;align-items:center;justify-content:space-between}
+.card-price{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700}
+
+.pp-btn{
+background:linear-gradient(135deg,var(--gold),var(--gold-d));
+color:var(--bg);border:none;
+padding:10px 20px;border-radius:8px;
+font-size:12px;font-weight:700;cursor:pointer;
+font-family:'Saira',sans-serif;
+text-transform:uppercase;letter-spacing:.3px;
+transition:transform .15s,box-shadow .2s;
+}
+.pp-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px var(--gold-g)}
+
+/* WHY US */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.why-card{
+background:var(--card);border:1px solid var(--border);
+border-radius:14px;padding:24px;
+transition:border-color .2s;
+}
+.why-card:hover{border-color:var(--gold-d)}
+.why-card h3{font-size:16px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.why-card p{font-size:13px;color:var(--text2);line-height:1.5}
+
+/* REVIEWS */
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.review{
+background:var(--bg3);border:1px solid var(--border);
+border-radius:12px;padding:20px;
+}
+.stars{color:var(--gold);font-size:16px;margin-bottom:8px;letter-spacing:2px}
+.review p{font-size:14px;line-height:1.5;font-style:italic;color:var(--text)}
+.review .reviewer{font-size:12px;color:var(--text3);margin-top:10px;font-style:normal}
+
+/* FAQ */
+.faq-list{max-width:700px;margin:0 auto}
+.faq-item{
+background:var(--bg3);border:1px solid var(--border);
+border-radius:10px;padding:16px 20px;
+margin-bottom:10px;
+}
+.faq-item h4{font-size:15px;font-weight:700;margin-bottom:4px;color:var(--text)}
+.faq-item p{font-size:13px;color:var(--text2);line-height:1.5}
+
+/* COMPAT */
+.compat-box{
+background:var(--bg3);border:1px solid var(--border);
+border-radius:16px;padding:40px;text-align:center;
+position:relative;overflow:hidden;
+max-width:800px;margin:0 auto;
+}
+.compat-box::before{
+content:'';position:absolute;inset:0;
+background:radial-gradient(ellipse at 50% 0%,rgba(240,168,48,0.06),transparent 60%);
+pointer-events:none;
+}
+.compat-box h2{font-family:'Chakra Petch',sans-serif;font-size:26px;font-weight:700;margin-bottom:8px;position:relative}
+.compat-box h2 .g{color:var(--gold)}
+.compat-box>p{font-size:14px;color:var(--text2);margin-bottom:24px;position:relative}
+.compat-items{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;position:relative}
+.compat-item{
+background:rgba(255,255,255,0.03);border:1px solid var(--border);
+border-radius:12px;padding:20px 28px;text-align:center;
+transition:border-color .2s;min-width:140px;
+}
+.compat-item:hover{border-color:var(--gold-d)}
+.compat-item .ci-e{font-size:28px;margin-bottom:6px}
+.compat-item h4{font-size:14px;font-weight:700}
+.compat-item p{font-size:11px;color:var(--text3)}
+
+/* EMAIL */
+.email-sec{
+text-align:center;padding:64px 24px;
+background:var(--bg2);
+}
+.email-sec h2{font-family:'Chakra Petch',sans-serif;font-size:26px;font-weight:700;margin-bottom:8px}
+.email-sec>p{font-size:14px;color:var(--text2);margin-bottom:24px}
+.e-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.e-row input{
+padding:14px 16px;border-radius:8px;
+border:1.5px solid var(--border);background:var(--bg);
+color:var(--text);font-size:14px;font-family:'Saira',sans-serif;
+outline:none;width:260px;transition:border-color .2s;
+}
+.e-row input:focus{border-color:var(--gold)}
+.e-row input::placeholder{color:var(--text3)}
+.e-row button{
+background:linear-gradient(135deg,var(--gold),var(--gold-d));
+color:var(--bg);border:none;
+padding:14px 24px;border-radius:8px;
+font-weight:700;font-size:14px;cursor:pointer;
+font-family:'Saira',sans-serif;
+transition:transform .15s;
+}
+.e-row button:hover{transform:translateY(-1px)}
+.e-fine{font-size:11px;color:var(--text3);margin-top:10px}
+#signup-msg{color:var(--gold);display:none;margin-top:8px;font-size:13px;font-weight:600}
+
+/* FOOTER */
+footer{
+text-align:center;padding:28px;
+border-top:1px solid var(--border);
+color:var(--text3);font-size:12px;
+}
+footer a{color:var(--text3);margin:0 10px;transition:color .2s}
+footer a:hover{color:var(--gold)}
+
+@media(max-width:768px){
+nav{padding:14px 16px}
+.hero{padding:56px 16px 48px}
+.nav-r a:not(.nav-btn){display:none}
+.e-row{flex-direction:column;align-items:center}
+.e-row input{width:100%;max-width:300px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<a href="#" class="logo"><span class="logo-i">🎮</span>Controller<span>Den</span></a>
+<div class="nav-r">
+<a href="#shop">Shop</a>
+<a href="#why">Why Us</a>
+<a href="#faq">FAQ</a>
+<a href="#shop" class="nav-btn">Shop Now</a>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-content">
+<h1>Retro Controllers.<br><span class="g">Modern Gaming.</span></h1>
+<p>USB & Bluetooth classic controllers rebuilt for PC, Mac & Raspberry Pi. Plug in and play instantly.</p>
+<a class="btn" href="#shop">🎮 Shop Controllers</a>
+</div>
+</section>
+
+<!-- TRUST -->
+<div class="trust-bar">
+<span>⚡ Plug & Play</span>
+<span>📦 Fast US Shipping</span>
+<span>🔒 Secure Checkout</span>
+<span>↩️ 30-Day Returns</span>
+</div>
+
+<div class="gl"></div>
+
+<!-- PRODUCTS -->
+<div class="section" id="shop">
+<div class="section-label">Shop</div>
+<h2>Best Sellers</h2>
+<p class="sub">Most players start here — proven favorites.</p>
+
+<div class="grid">
+
+<div class="card">
+<div class="card-img">
+<span class="card-tag tag-best">Best Seller</span>
+<img src="https://i.ebayimg.com/images/g/MEQAAOSwmpBjqpty/s-l500.jpg" alt="N64 USB Controller">
+</div>
+<div class="card-body">
+<div class="card-con">Nintendo 64</div>
+<div class="card-name">N64 USB Controller</div>
+<div class="card-stock">🔥 Only 6 left</div>
+<div class="card-desc">Classic trident design rebuilt for PC & Mac. USB plug & play.</div>
+<div class="card-foot">
+<span class="card-price">$19.99</span>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:inline">
+<input type="hidden" name="cmd" value="_xclick">
+<input type="hidden" name="business" value="controllerdencom@gmail.com">
+<input type="hidden" name="item_name" value="N64 USB Controller - Controller Den">
+<input type="hidden" name="amount" value="19.99">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="shipping" value="0.00">
+<input type="hidden" name="return" value="https://controllerden.com">
+<button type="submit" class="pp-btn">Buy Now</button>
+</form>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-img">
+<span class="card-tag tag-pop">Popular</span>
+<img src="https://i.ebayimg.com/images/g/uGkAAOSwJGpliHTo/s-l500.jpg" alt="SNES USB Controller">
+</div>
+<div class="card-body">
+<div class="card-con">Super Nintendo</div>
+<div class="card-name">SNES USB Controller</div>
+<div class="card-stock">🔥 Trending</div>
+<div class="card-desc">Super Nintendo feel with modern USB. Perfect for emulators.</div>
+<div class="card-foot">
+<span class="card-price">$19.99</span>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:inline">
+<input type="hidden" name="cmd" value="_xclick">
+<input type="hidden" name="business" value="controllerdencom@gmail.com">
+<input type="hidden" name="item_name" value="SNES USB Controller - Controller Den">
+<input type="hidden" name="amount" value="19.99">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="shipping" value="0.00">
+<input type="hidden" name="return" value="https://controllerden.com">
+<button type="submit" class="pp-btn">Buy Now</button>
+</form>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-img">
+<img src="https://i.ebayimg.com/images/g/NMwAAOSwshFlCTp-/s-l500.jpg" alt="NES Classic USB Controller">
+</div>
+<div class="card-body">
+<div class="card-con">Nintendo</div>
+<div class="card-name">NES Classic USB Controller</div>
+<div class="card-desc">The original rectangular legend. Instant emulator compatibility.</div>
+<div class="card-foot">
+<span class="card-price">$17.99</span>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:inline">
+<input type="hidden" name="cmd" value="_xclick">
+<input type="hidden" name="business" value="controllerdencom@gmail.com">
+<input type="hidden" name="item_name" value="NES Classic USB Controller - Controller Den">
+<input type="hidden" name="amount" value="17.99">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="shipping" value="0.00">
+<input type="hidden" name="return" value="https://controllerden.com">
+<button type="submit" class="pp-btn">Buy Now</button>
+</form>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-img">
+<img src="https://i.ebayimg.com/images/g/FQEAAOSwffRdiC1p/s-l500.jpg" alt="Sega Genesis 6-Button USB Controller">
+</div>
+<div class="card-body">
+<div class="card-con">Sega</div>
+<div class="card-name">Sega Genesis 6-Button USB</div>
+<div class="card-stock">🔥 Fighter Favorite</div>
+<div class="card-desc">6-button arcade layout. Built for fighting games & classics.</div>
+<div class="card-foot">
+<span class="card-price">$21.99</span>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:inline">
+<input type="hidden" name="cmd" value="_xclick">
+<input type="hidden" name="business" value="controllerdencom@gmail.com">
+<input type="hidden" name="item_name" value="Sega Genesis 6-Button USB Controller - Controller Den">
+<input type="hidden" name="amount" value="21.99">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="shipping" value="0.00">
+<input type="hidden" name="return" value="https://controllerden.com">
+<button type="submit" class="pp-btn">Buy Now</button>
+</form>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-img">
+<span class="card-tag tag-prem">Wireless</span>
+<img src="https://i.ebayimg.com/images/g/9SsAAOSwJvxlpjOz/s-l500.jpg" alt="SNES Wireless Bluetooth Controller">
+</div>
+<div class="card-body">
+<div class="card-con">Super Nintendo</div>
+<div class="card-name">SNES Wireless Bluetooth</div>
+<div class="card-stock">🔥 New Drop</div>
+<div class="card-desc">Classic SNES with Bluetooth 5.0. Works with phones, tablets & PC.</div>
+<div class="card-foot">
+<span class="card-price">$29.99</span>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:inline">
+<input type="hidden" name="cmd" value="_xclick">
+<input type="hidden" name="business" value="controllerdencom@gmail.com">
+<input type="hidden" name="item_name" value="SNES Wireless Bluetooth Controller - Controller Den">
+<input type="hidden" name="amount" value="29.99">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="shipping" value="0.00">
+<input type="hidden" name="return" value="https://controllerden.com">
+<button type="submit" class="pp-btn">Buy Now</button>
+</form>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="gl"></div>
+
+<!-- WHY US -->
+<div class="section" id="why">
+<div class="section-label">Why Us</div>
+<h2>Why Controller Den?</h2>
+<p class="sub">We don't sell junk replicas — we rebuild nostalgia properly.</p>
+
+<div class="why-grid">
+<div class="why-card">
+<h3>⚡ Low Latency</h3>
+<p>Built for smooth emulation and competitive play. No input lag.</p>
+</div>
+<div class="why-card">
+<h3>🔌 No Setup Required</h3>
+<p>Plug it in. It just works. No drivers, no software, no hassle.</p>
+</div>
+<div class="why-card">
+<h3>🛡️ Quality Tested</h3>
+<p>Every controller is tested before shipping. No dead buttons, no drift.</p>
+</div>
+<div class="why-card">
+<h3>📦 Ships Fast</h3>
+<p>Orders ship within 1-2 business days from the USA. Free over $35.</p>
+</div>
+</div>
+</div>
+
+<div class="gl"></div>
+
+<!-- COMPATIBILITY -->
+<div class="section">
+<div class="compat-box">
+<h2>Plug In. <span class="g">Play Instantly.</span></h2>
+<p>No drivers. No software. Just connect and game.</p>
+<div class="compat-items">
+<div class="compat-item"><div class="ci-e">🖥️</div><h4>Windows PC</h4><p>Plug & play</p></div>
+<div class="compat-item"><div class="ci-e">🍎</div><h4>Mac / MacBook</h4><p>Full support</p></div>
+<div class="compat-item"><div class="ci-e">🥧</div><h4>Raspberry Pi</h4><p>RetroPie ready</p></div>
+</div>
+</div>
+</div>
+
+<div class="gl"></div>
+
+<!-- REVIEWS -->
+<div class="section">
+<div class="section-label">Reviews</div>
+<h2>What Players Say</h2>
+<p class="sub">Real feedback from real gamers.</p>
+
+<div class="reviews-grid">
+<div class="review">
+<div class="stars">★★★★★</div>
+<p>"Feels exactly like my childhood N64 controller. Plugged it in and it worked instantly on my PC. No drivers needed."</p>
+<div class="reviewer">— Jake M., verified buyer</div>
+</div>
+<div class="review">
+<div class="stars">★★★★★</div>
+<p>"Way better than the cheap Amazon clones I tried before. Solid build, buttons feel great, and it showed up in 3 days."</p>
+<div class="reviewer">— Sarah T., verified buyer</div>
+</div>
+<div class="review">
+<div class="stars">★★★★★</div>
+<p>"Perfect for my RetroPie setup. Bought the SNES and NES controllers — both plug and play, zero issues."</p>
+<div class="reviewer">— Marcus R., verified buyer</div>
+</div>
+</div>
+</div>
+
+<div class="gl"></div>
+
+<!-- FAQ -->
+<div class="section" id="faq">
+<div class="section-label">FAQ</div>
+<h2>Common Questions</h2>
+<p class="sub">Quick answers so you can get back to gaming.</p>
+
+<div class="faq-list">
+<div class="faq-item">
+<h4>Do I need to install drivers?</h4>
+<p>Nope — every controller is true plug and play. Connect via USB and your PC, Mac, or Raspberry Pi recognizes it instantly.</p>
+</div>
+<div class="faq-item">
+<h4>How long does shipping take?</h4>
+<p>Most orders arrive in 2-5 business days within the US. We ship within 1-2 business days of your order.</p>
+</div>
+<div class="faq-item">
+<h4>What's your return policy?</h4>
+<p>30-day hassle-free returns. If something's wrong with your controller, we'll make it right — no questions asked.</p>
+</div>
+<div class="faq-item">
+<h4>Do these work with emulators?</h4>
+<p>Yes — they work with RetroArch, Project64, OpenEmu, Snes9x, and basically any emulator that accepts USB controller input.</p>
+</div>
+<div class="faq-item">
+<h4>Are these official Nintendo/Sega controllers?</h4>
+<p>These are high-quality third-party reproductions designed to feel like the originals with modern USB/Bluetooth connectivity.</p>
+</div>
+</div>
+</div>
+
+<!-- EMAIL -->
+<section class="email-sec" id="join">
+<h2>Get 10% Off Your First Order</h2>
+<p>Join the Den for new drops, restocks & exclusive deals.</p>
+<div class="e-row">
+<input type="email" id="signup-email" placeholder="Your email address">
+<button onclick="handleSignup()">Get Discount</button>
+</div>
+<p class="e-fine">No spam. Unsubscribe anytime.</p>
+<p id="signup-msg"></p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<p style="margin-bottom:12px">
+<a href="#shop">Shop</a>
+<a href="#why">Why Us</a>
+<a href="#faq">FAQ</a>
+<a href="mailto:controllerdencom@gmail.com">Contact</a>
+</p>
+<p style="margin-bottom:12px">
+<a href="https://tiktok.com/@controllerden" target="_blank" style="font-size:18px;margin:0 6px" title="TikTok">🎵</a>
+<a href="https://instagram.com/controllerden" target="_blank" style="font-size:18px;margin:0 6px" title="Instagram">📸</a>
+<a href="https://x.com/controllerden" target="_blank" style="font-size:18px;margin:0 6px" title="X / Twitter">𝕏</a>
+</p>
+<p>Controller Den © 2026 — Retro Gaming Rebuilt for Modern Players</p>
+<p style="margin-top:4px;font-size:11px;color:#4a4740">controllerdencom@gmail.com</p>
+</footer>
+
+<script>
+function handleSignup(){
+const email=document.getElementById('signup-email').value;
+const msg=document.getElementById('signup-msg');
+if(!email||!email.includes('@')){
+msg.textContent='Please enter a valid email.';
+msg.style.color='var(--red)';
+msg.style.display='block';
+return;
+}
+msg.textContent="You're in! Check your email for your 10% off code.";
+msg.style.color='var(--gold)';
+msg.style.display='block';
+document.getElementById('signup-email').value='';
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+a.addEventListener('click',e=>{
+e.preventDefault();
+const t=document.querySelector(a.getAttribute('href'));
+if(t)t.scrollIntoView({behavior:'smooth'});
+});
+});
+</script>
+
+</body>
+</html>
